@@ -1,10 +1,10 @@
-const {colors:defaultColors} = require('tailwindcss/colors')
+const { colors: defaultColors } = require('tailwindcss/colors')
 const colors = {
   ...defaultColors,
   ...{
-    "textGray":'#8d8f91'
-  }
-
+    textGray: '#8d8f91',
+    themeRed: '#FF4F68',
+  },
 }
 module.exports = {
   content: [
@@ -13,7 +13,7 @@ module.exports = {
   ],
   theme: {
     extend: {
-      colors
+      colors,
     },
   },
   plugins: [],

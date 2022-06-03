@@ -4,31 +4,37 @@ import { auth } from '../../firebase/firebase'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { useRouter } from 'next/router'
+import Image from 'next/image'
+import Input from '../../components/input'
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
 const Index = () => {
   const [password, setPassword] = useState('')
   const [email, setEmail] = useState('')
   const [valid, setValid] = useState(false)
+  const [error, setError] = useState()
+  const [eye, setEye] = useState(true)
   const router = useRouter()
+  
+  
 
   useEffect(() => {
     if (
       password &&
       email &&
-      email.matchAll(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g) &&
+      email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g)?.length > 0 &&
       password.length > 5
     ) {
       setValid(true)
     } else {
       setValid(false)
     }
-    console.log(email + password)
   }, [password, email])
   const [user, userLoading, userError] = useAuthState(auth)
-
+  
   const login = () => {
     if (valid) {
       signInWithEmailAndPassword(auth, email, password).catch((err) => {
-        console.log(err)
+        setError(err.code)
       })
     }
   }
@@ -39,41 +45,43 @@ const Index = () => {
   }, [user])
   return (
     <div className="flex h-screen w-full flex-col items-center justify-center bg-[#1A1D21]">
-      <div>Logo</div>
+      <div className="relative mb-10 h-[7rem] w-[10rem] ">
+        <Image
+          src="/static/darkLogo.png"
+          layout="fill"
+          placeholder="blur"
+          blurDataURL="/static/darkLogo.png"
+        />
+      </div>
       <div className="flex flex-col ">
         <p className="mb-6 text-2xl font-semibold text-white">Log In 👋</p>
-        <div className="flex w-[25rem] flex-col  rounded-lg border border-[#313438]">
-          <label className="group relative flex h-[4.5rem] w-full items-center border-b  border-[#313438] bg-[#1F2227] px-4 ">
-            <span
-              className={`absolute text-sm ${
-                email ? '-translate-y-5 text-sm opacity-75' : null
-              }   text-textGray transition-all  group-focus-within:-translate-y-5 group-focus-within:text-sm  group-focus-within:opacity-75`}
-            >
-              Your Login
-            </span>
-            <input
-              type="text"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value)
-              }}
-              className="h-full w-full bg-transparent text-white  outline-none "
-            />
-          </label>
-          <label className="group relative flex h-[4.5rem] w-full  items-center bg-[#1F2227] px-4 ">
-            <span
-              className={`absolute text-sm ${
-                password ? '-translate-y-5 text-sm opacity-75' : null
-              }  text-textGray transition-all group-focus-within:-translate-y-5 group-focus-within:text-sm  group-focus-within:opacity-75`}
-            >
-              Password
-            </span>
-            <input
-              type="text"
+        <blockquote
+          className={`mb-4   border-l-[3px] border-themeRed pl-2 text-sm  text-white ${
+            error ? 'static scale-100' : 'absolute scale-0'
+          }`}
+        >
+          Error : {error ? error?.replace('auth/', '') : null}
+        </blockquote>
+        <div className="flex w-[25rem] flex-col  overflow-hidden rounded-lg border border-[#313438]">
+          <Input
+            placeholder={'E-mail'}
+            type={'email'}
+            value={email}
+            setValue={setEmail}
+          />
+          <label className="relative flex items-center">
+            <Input
+              placeholder={'Password'}
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="h-full w-full bg-transparent text-white  outline-none "
+              type={eye ? 'password' : 'text'}
+              setValue={setPassword}
             />
+            <div
+              onClick={() => setEye(!eye)}
+              className="absolute right-2 z-[99] text-xl text-textGray transition-all"
+            >
+              {eye ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
+            </div>
           </label>
         </div>
         <button
