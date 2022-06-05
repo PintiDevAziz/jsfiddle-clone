@@ -8,7 +8,6 @@ import Image from 'next/image'
 import Input from '../../components/input'
 import { AiOutlineEye } from 'react-icons/ai'
 import { AiOutlineEyeInvisible } from 'react-icons/ai'
-import { doc, setDoc } from 'firebase/firestore'
 const Index = () => {
   const [password, setPassword] = useState('')
   const [email, setEmail] = useState('')
@@ -32,21 +31,15 @@ const Index = () => {
   }, [password, email])
   const [user, userLoading, userError] = useAuthState(auth)
 
-  const saveFirestore = async () => {
-    const userId = Math.random().toString(36).substring(2, 15)
-    const docRef = doc(db, 'users', userId)
-    await setDoc(docRef, {
-      userName: userName,
-      userEmail: email,
-      userPassword: password,
-      id: userId,
-    })
-  }
   const signUp = () => {
     if (valid) {
-      createUserWithEmailAndPassword(auth, email, password).catch((err) => {
-        setError(err.code)
-      })
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          setError(null)
+        })
+        .catch((err) => {
+          setError(err.code)
+        })
     }
   }
   useEffect(() => {

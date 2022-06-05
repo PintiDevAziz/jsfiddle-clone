@@ -14,8 +14,6 @@ const Index = () => {
   const [error, setError] = useState()
   const [eye, setEye] = useState(true)
   const router = useRouter()
-  
-  
 
   useEffect(() => {
     if (
@@ -30,12 +28,16 @@ const Index = () => {
     }
   }, [password, email])
   const [user, userLoading, userError] = useAuthState(auth)
-  
+
   const login = () => {
     if (valid) {
-      signInWithEmailAndPassword(auth, email, password).catch((err) => {
-        setError(err.code)
-      })
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          setError(null)
+        })
+        .catch((err) => {
+          setError(err.code)
+        })
     }
   }
   useEffect(() => {
@@ -95,7 +97,7 @@ const Index = () => {
           <Link href={'/user/signup'}>
             <a className={' mt-6  hover:underline '}>Sign Up</a>
           </Link>
-          <Link href={'/user/rest_password'}>
+          <Link href={'/user/reset_password'}>
             <a className={' mt-6  hover:underline '}>Reset Password</a>
           </Link>
         </div>
