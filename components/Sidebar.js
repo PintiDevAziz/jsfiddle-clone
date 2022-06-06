@@ -3,7 +3,7 @@ import React from 'react'
 
 const Sidebar = () => {
   return (
-    <div className=" flex h-full w-56  flex-col justify-between border-r  border-r-borderGray">
+    <div className=" flex h-full w-64 flex-col justify-between border-r  border-r-borderGray">
       <div className="p-3">
         <h2 className="text-whiet mb-3 font-semibold text-white">
           Fiddle meta
