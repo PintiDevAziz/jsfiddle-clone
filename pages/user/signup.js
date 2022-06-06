@@ -44,11 +44,6 @@ const Index = () => {
   }
   useEffect(() => {
     if (user) {
-      saveFirestore()
-    }
-  }, [user])
-  useEffect(() => {
-    if (user) {
       router.push('/')
     }
   }, [user])
