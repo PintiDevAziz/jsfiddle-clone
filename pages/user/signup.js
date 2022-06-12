@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { setDoc, doc } from 'firebase/firestore'
 import Link from 'next/link'
 import { auth, db } from '../../firebase/firebase'
 import { useAuthState } from 'react-firebase-hooks/auth'
@@ -14,7 +15,7 @@ const Index = () => {
   const [userName, setUserName] = useState('')
   const [valid, setValid] = useState(false)
   const [error, setError] = useState(null)
-  const [eye, setEye] = useState(false)
+  const [eye, setEye] = useState(true)
   const router = useRouter()
   useEffect(() => {
     if (
@@ -118,7 +119,7 @@ const Index = () => {
           <Link href={'/user/login'}>
             <a className={' mt-6  hover:underline '}>Log in</a>
           </Link>
-          <Link href={'/user/rest_password'}>
+          <Link href={'/user/reset_password'}>
             <a className={' mt-6  hover:underline '}>Reset Password</a>
           </Link>
         </div>

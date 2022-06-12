@@ -1,17 +1,26 @@
 import { signOut } from 'firebase/auth'
+import Image from 'next/image'
 import Link from 'next/link'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { BsChatLeft } from 'react-icons/bs'
 import { FiUploadCloud, FiPlay } from 'react-icons/fi'
 import { VscSettings } from 'react-icons/vsc'
 import { auth } from '../firebase/firebase'
-const Header = ({ run }) => {
+
+const Header = ({ run, htmlVal, cssVal, jsVal, description, title }) => {
   const [user, userLoading, userError] = useAuthState(auth)
+
   return (
     <div className="flex h-16 w-full  items-center justify-between bg-baseBgDarker px-4">
       <div className="flex h-full items-center gap-x-6">
-        <div className="">Logo</div>
+        <div className="relative h-10 w-14  ">
+          <Link href={'/'}>
+            <a>
+              <Image src={'/static/darkLogo.png'} layout="fill" />
+            </a>
+          </Link>
+        </div>
         <label
           className="group relative flex h-full items-center gap-x-1 text-sm text-white "
           onClick={run}
@@ -41,9 +50,9 @@ const Header = ({ run }) => {
         {user ? (
           <div
             onClick={() => signOut(auth)}
-            className="flex h-full items-center text-white cursor-pointer"
+            className="flex h-full cursor-pointer items-center text-white"
           >
-            {user?.email.replace(/@gmail.com/g,'')}
+            {user?.email.replace(/@gmail.com/g, '')}
           </div>
         ) : (
           <Link href={'/user/login'}>

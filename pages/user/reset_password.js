@@ -14,7 +14,7 @@ const Index = () => {
   const [email, setEmail] = useState('')
   const [valid, setValid] = useState(false)
   const [error, setError] = useState(null)
-  const [showInfo, setShoInfo] = useState(true)
+  const [showInfo, setShoInfo] = useState(false)
   const router = useRouter()
 
   useEffect(() => {

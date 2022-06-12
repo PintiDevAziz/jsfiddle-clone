@@ -14,11 +14,12 @@ const index = () => {
   const [htmlVal, setHtmlVal] = useState('')
   const [cssVal, setCssVal] = useState('')
   const [jsVal, setJsVal] = useState('')
-
   const [finalValue, setFinalValue] = useState(``)
+  const [description, setDescripton] = useState('')
+  const [title, setTitle] = useState('')
   const run = () => {
     setFinalValue(`<!DOCTYPE html>
-      <html lang="en">
+      <html lang="en" style="height:100%;">
       <head>
           <meta charset="UTF-8">
           <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,9 +28,8 @@ const index = () => {
           ${cssVal}
           </style>
       </head>
-      <body style="height:100%;>
+      <body style="height:100%;">
           ${htmlVal}
-    
           <script>
           ${jsVal}
           </script>
@@ -38,9 +38,15 @@ const index = () => {
   }
   return (
     <div className="h-screen w-full bg-baseBg">
-      <Header run={run} />
+      <Header title={title} description={description} run={run} />
       <div className=" flex h-[calc(100vh-4rem)] w-full">
-        <Sidebar />
+        <Sidebar
+          setTitle={setTitle}
+          setDescripton={setDescripton}
+          htmlVal={htmlVal}
+          cssVal={cssVal}
+          jsVal={jsVal}
+        />
         <div className=" grid w-full grid-cols-2 grid-rows-2 overflow-hidden   ">
           <div className="relative   flex h-full flex-col">
             <div className=" border-r border-textGray bg-[#282C34]  p-1  font-semibold capitalize tracking-wider text-textGray">
